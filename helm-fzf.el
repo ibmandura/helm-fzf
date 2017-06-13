@@ -1,0 +1,48 @@
+
+(require 'helm)
+(require 's)
+
+(defcustom helm-fzf-executable "fzf"
+  "Default executable for fzf"
+  :type 'stringp
+  :group 'helm-fzf)
+
+(defun helm-fzf--project-root ()
+  (cl-loop for dir in '(".git/" ".hg/" ".svn/" ".git")
+           when (locate-dominating-file default-directory dir)
+           return it))
+
+(defvar helm-fzf-source
+  (helm-build-async-source "fzf"
+    :candidates-process 'helm-fzf--do-candidate-process
+    :filter-one-by-one 'identity
+    :requires-pattern 3
+    :action 'helm-find-file-or-marked
+    :candidate-number-limit 9999))
+
+(defun helm-fzf--do-candidate-process ()
+  (let* ((cmd-args (-filter 'identity (list helm-fzf-executable
+                                            "--no-sort"
+                                            "-f"
+                                            helm-pattern)))
+         (proc (apply 'start-file-process "helm-fzf" helm-buffer cmd-args)))
+    (prog1 proc
+      (set-process-sentinel
+       (get-buffer-process helm-buffer)
+       #'(lambda (process event)
+         (helm-process-deferred-sentinel-hook
+          process event (helm-default-directory)))))))
+
+(defun helm-fzf (directory)
+  (interactive "D")
+  (let ((default-directory directory))
+    (helm :sources '(helm-fzf-source)
+          :buffer "*helm-fzf*")))
+
+(defun helm-fzf-project-root ()
+  (interactive)
+  (let ((default-directory (helm-fzf--project-root)))
+    (unless default-directory
+      (error "Could not find the project root."))
+    (helm :sources '(helm-fzf-source)
+          :buffer "*helm-fzf*")))
