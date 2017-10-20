@@ -1,5 +1,20 @@
+;;; helm-fzf.el --- helm binding for FZF
+
+;; Copyright (C) 2011 Free Software Foundation, Inc.
+
+;; Author: J. R. Hacker <jrh@example.com>
+
+;; Version: 1.3
+;; Package-Requires: ((emacs "24.4"))
+;; Keywords: helm fzf
+;; Homepaage: http://example.com/jrhacker/superfrobnicate
+
+;;; Commentary:
+
+;;; Code:
 
 (require 'helm)
+(require 'helm-files)
 (require 's)
 
 (defcustom helm-fzf-executable "fzf"
@@ -33,6 +48,7 @@
          (helm-process-deferred-sentinel-hook
           process event (helm-default-directory)))))))
 
+;;;###autoload
 (defun helm-fzf (directory)
   (interactive "D")
   (let ((default-directory directory))
@@ -46,3 +62,7 @@
       (error "Could not find the project root."))
     (helm :sources '(helm-fzf-source)
           :buffer "*helm-fzf*")))
+
+(provide 'helm-fzf)
+
+;;; helm-fzf.el ends here
