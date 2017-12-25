@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2011 Free Software Foundation, Inc.
 
-;; Author: Ivan Buda Mandura
+;; Author: Ivan Buda Mandura (ivan.mandura93@gmail.com)
 
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "24.4"))
