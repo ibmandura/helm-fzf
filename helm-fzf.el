@@ -2,12 +2,11 @@
 
 ;; Copyright (C) 2011 Free Software Foundation, Inc.
 
-;; Author: J. R. Hacker <jrh@example.com>
+;; Author: Ivan Buda Mandura
 
-;; Version: 1.3
+;; Version: 0.1
 ;; Package-Requires: ((emacs "24.4"))
 ;; Keywords: helm fzf
-;; Homepaage: http://example.com/jrhacker/superfrobnicate
 
 ;;; Commentary:
 
