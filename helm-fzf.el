@@ -15,6 +15,7 @@
 (require 'helm)
 (require 'helm-files)
 (require 's)
+(require 'dash)
 
 (defcustom helm-fzf-executable "fzf"
   "Default executable for fzf"
